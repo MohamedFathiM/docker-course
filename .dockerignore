@@ -2,3 +2,4 @@
 Dockerfile
 .env
 package-lock.json
+docker-compose*
