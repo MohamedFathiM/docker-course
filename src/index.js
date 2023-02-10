@@ -30,4 +30,10 @@ app.get("/", (req, res) => {
 
   res.send("<h1> Hello From Node js  World , hi</h1>");
 });
+
+app.get("/result", async (req, res) => {
+  let product = await REDIS_CLIENT.get("products");
+
+  res.send(product);
+});
 app.listen(PORT, () => console.log(`App is Running on : ${PORT}`));
