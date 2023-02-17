@@ -1,7 +1,6 @@
 const express = require("express");
 const PORT = 4000;
 const app = express();
-const mongoose = require("mongoose");
 const redis = require("redis");
 
 // Connect To Redis
@@ -15,15 +14,33 @@ REDIS_CLIENT.on("connect", () => console.log("Connected To Redis.. "));
 REDIS_CLIENT.connect();
 
 // Connect To MongoDB
+// const mongoose = require("mongoose");
+// const DB_USER = "root";
+// const DB_PASSWORD = "example";
+// const DB_PORT = 27017;
+// const DB_HOST = "mongo";
+// const URI = `mongodb://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}`;
+// mongoose
+//   .connect(URI)
+//   .then(() => console.log("Connected To Database "))
+//   .catch((err) => console.log("Failed To Connect", err));
+
+// Connect to Postgres
+const { Client } = require("pg");
 const DB_USER = "root";
 const DB_PASSWORD = "example";
-const DB_PORT = 27017;
-const DB_HOST = "mongo";
-const URI = `mongodb://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}`;
-mongoose
-  .connect(URI)
-  .then(() => console.log("Connected To Database "))
-  .catch((err) => console.log("Failed To Connect", err));
+const DB_PORT = 5432;
+const DB_HOST = "postgres";
+
+const connectionString = `postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}`;
+
+const client = new Client({
+  connectionString,
+});
+client
+  .connect()
+  .then(() => console.log("Connected To Postgres Database "))
+  .catch((err) => console.log("Failed To Connect Postgres", err));
 
 app.get("/", (req, res) => {
   REDIS_CLIENT.set("products", "products");
