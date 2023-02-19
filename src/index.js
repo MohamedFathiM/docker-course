@@ -2,6 +2,7 @@ const express = require("express");
 const PORT = 4000;
 const app = express();
 const redis = require("redis");
+const os = require("os");
 
 // Connect To Redis
 const REDIS_PORT = 6379;
@@ -44,6 +45,7 @@ client
 
 app.get("/", (req, res) => {
   REDIS_CLIENT.set("products", "products");
+  console.log(`Traffic from ${os.hostname}`);
 
   res.send("<h1> Hello From Node js  World , hi</h1>");
 });
@@ -54,3 +56,5 @@ app.get("/result", async (req, res) => {
   res.send(product);
 });
 app.listen(PORT, () => console.log(`App is Running on : ${PORT}`));
+
+
